@@ -1,0 +1,17 @@
+{
+    "user_auth":[
+        {
+            "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/919.jpg",
+            "fullname": "Nguyen Tien Tu",
+            "username": "tientu2003",
+            "password": "noideatt"
+        },{
+            "avatarUrl": "",
+            "fullname": "Admin",
+            "username": "admin",
+            "password": "admin123"
+
+        }
+    ]  
+}
+
