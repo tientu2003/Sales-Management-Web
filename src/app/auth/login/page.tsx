@@ -1,20 +1,13 @@
 'use client';
-
 import React from 'react';
 // Chakra imports
 import {
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Icon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Text,
+  Box,Button,
+  Checkbox,Flex,
+  FormControl,FormLabel,
+  Heading,Icon,
+  Input,InputGroup,
+  InputRightElement,Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
@@ -22,10 +15,10 @@ import {
 import Link from 'next/link';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
-import { redirect } from 'next/dist/server/api-utils';
-
+import { useRouter} from 'next/navigation';
 export default function SignIn() {
   // Chakra color mode
+ 
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
@@ -40,7 +33,8 @@ export default function SignIn() {
     'password':password
     }
   ]
-  
+  const router = useRouter();
+
   function handleSignInClick(){
       
       fetch('http://localhost:3000/api/login',{
@@ -51,10 +45,10 @@ export default function SignIn() {
           body: JSON.stringify(data)
       }).then(res => res.json()).then(
         recieved =>  {
-          if(recieved.status == "sucess"){
-            alert(recieved.name)
+          if(recieved.status == "success"){
+            router.push(`/mypage/home?uid=${recieved.uid}&name=${recieved.name}`);
           }else{
-            alert(recieved.name)
+            alert(recieved.status)
           }
         }
       )

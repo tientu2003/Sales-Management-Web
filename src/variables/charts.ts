@@ -29,7 +29,7 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
     theme: "dark",
   },
   xaxis: {
-    categories: ["00", "04", "08", "12", "14", "16", "18"],
+    categories: ["Mon", "Tue", "Wed", "Thus", "Fri", "Sat", "Sun"],
     show: false,
     labels: {
       show: true,

@@ -2,11 +2,7 @@
 // Chakra Imports
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Flex,
-  Link,
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
@@ -15,28 +11,22 @@ import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin'
 import { isWindowAvailable } from 'utils/navigation'
 
 export default function AdminNavbar (props: {
-  message: string | boolean
-  brandText: string
-  logoText: string
   fixed: boolean
-  onOpen: (...args: any[]) => any
-}) {
+  name: string
+  onOpen: (...args: any[]) => any}) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     if (isWindowAvailable()) {
       // You now have access to `window`
       window.addEventListener('scroll', changeNavbar)
-
       return () => {
         window.removeEventListener('scroll', changeNavbar)
       }
     }
   })
  
-
-  const { message, brandText } = props
-
+  const fullname = props.name;
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
   let mainText = useColorModeValue('navy.700', 'white')
@@ -132,11 +122,11 @@ export default function AdminNavbar (props: {
               boxShadow: 'none'
             }}
           >
-            {brandText}
+            {fullname}
           </Text>
         </Box>
         <Box ms='auto' w={{ sm: '100%', md: 'unset' }}>
-          <AdminNavbarLinks />
+          <AdminNavbarLinks name ={fullname}/>
         </Box>
       </Flex> 
     </Box>

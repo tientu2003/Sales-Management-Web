@@ -23,7 +23,7 @@ import { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { MdNotificationsNone } from 'react-icons/md';
 import routes from 'routes';
-export default function HeaderLinks() {
+export default function HeaderLinks(props:{name:string}) {
   const { colorMode, toggleColorMode } = useColorMode();
   // Chakra Color Mode
   const navbarIcon = useColorModeValue('gray.400', 'white');
@@ -150,7 +150,7 @@ export default function HeaderLinks() {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hi, Sir
+              👋&nbsp; Hi, {props.name}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">

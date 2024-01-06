@@ -6,22 +6,18 @@ import {
   useDisclosure,
   useColorModeValue,
 } from '@chakra-ui/react';
-import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
 import Sidebar from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren,  useEffect,  useState,use } from 'react';
 import routes from 'routes';
-import {
-  getActiveNavbar,
-  getActiveNavbarText,
-  getActiveRoute,
-} from 'utils/navigation';
+import { SearchParams } from 'types';
 interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
+  searchParams: SearchParams;
 }
-
+import { useSearchParams } from 'next/navigation';
 export default function MyPageLayout(props: DashboardLayoutProps) {
   const { children, ...rest } = props;
   // states and functions
@@ -29,12 +25,10 @@ export default function MyPageLayout(props: DashboardLayoutProps) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   // functions for changing the states from components
   const { onOpen } = useDisclosure();
-
-  useEffect(() => {
-    window.document.documentElement.dir = 'ltr';
-  });
-
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
+  const searchParams = useSearchParams();
+  const [uid,setUID] = useState(searchParams.get('uid'));
+  const [fullname,setFullname] = useState(searchParams.get('name'));
 
   return (
     <Box h="100vh" w="100vw" bg={bg}>
@@ -64,10 +58,7 @@ export default function MyPageLayout(props: DashboardLayoutProps) {
             <Box>
               <Navbar
                 onOpen={onOpen}
-                logoText={''}
-                brandText={getActiveRoute(routes)}
-                // secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
+                name = {fullname}
                 fixed={fixed}
                 {...rest}
               />

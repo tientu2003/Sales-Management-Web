@@ -3,6 +3,7 @@ import { PropsWithChildren, useState } from 'react';
 
 // Chakra imports
 import { Box, Center, Stack, useColorModeValue } from '@chakra-ui/react';
+import Footer from 'components/footer/FooterAuth';
 
 
 // Custom Chakra theme
@@ -13,6 +14,7 @@ export default function AuthLayout({ children }: AuthProps) {
   // states and functions
   const authBg = useColorModeValue('white', 'navy.900');
   return (
+    <Box>
         <Center bg={authBg}>
             <Box
             bg={authBg}
@@ -29,7 +31,8 @@ export default function AuthLayout({ children }: AuthProps) {
                 {children}
                 </Box>
             </Box>
-
          </Center>
+        
+      </Box>
   );
 }
