@@ -14,7 +14,7 @@ export default function Home() {
         spacing={{ base: '20px', xl: '20px' }}
       >
         <Card minHeight={'300px'}>
-          <Heading>Introduction</Heading>
+          <Heading>News</Heading>
           <Text></Text>
         </Card>
         <Card minHeight={'300px'}>

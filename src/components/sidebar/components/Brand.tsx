@@ -2,7 +2,7 @@
 import { Flex, useColorModeValue } from '@chakra-ui/react';
 
 // Custom components
-import { Text} from '@chakra-ui/react';
+import { Heading} from '@chakra-ui/react';
 import { HSeparator } from 'components/separator/Separator';
 
 export function SidebarBrand() {
@@ -11,7 +11,7 @@ export function SidebarBrand() {
 
 	return (
 		<Flex alignItems='center' flexDirection='column'>
-			<Text h='30px' w='120px' my='10px'  color={'chakra-body-text._dark'} fontSize={'larger'} fontWeight='bold'>My Project</Text>
+			<Heading h='30px' w='150px' my='5px'  color={'chakra-body-text._dark'} fontSize={'24px'} fontWeight='bold'>My Project</Heading>
 			<HSeparator mb='20px' />
 		</Flex>
 	);

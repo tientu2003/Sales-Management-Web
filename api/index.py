@@ -14,14 +14,22 @@ def get_login():
             return jsonify({"status": "success","name": element['fullname'],"uid":element['uid']})
     return jsonify({"status": "fail","name": "invalid"})
 
-@app.route("/api/getData",methods= ['POST'])
-def getData():
+@app.route("/api/getProductData",methods= ['POST'])
+def getDataTable():
     received = request.get_json()
-    f = open('api/data/UsersData.json')
-    data = json.load(f)
-    for element in data['user_auth']:
-        if received[0]['uid'] == element['uid']:
-            return jsonify(element)
+    with open('api/data/ProductData.json') as read:
+        data = json.load(read)
+        uid = received['uid']
+        return jsonify(data[uid])
+    
+@app.route("/api/getSalesData",methods= ['POST'])
+def getDataTable():
+    received = request.get_json()
+    with open('api/data/SalesData.json') as read:
+        data = json.load(read) 
+        uid = received['uid']
+        return jsonify(data[uid])
+        
 
 if __name__ == "__main__":
     app.run(debug= True)

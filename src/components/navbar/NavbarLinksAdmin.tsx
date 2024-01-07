@@ -17,7 +17,6 @@ import {
 } from '@chakra-ui/react';
 // Custom Components
 import {useRouter} from "next/navigation";
-import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
 // Assets
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
@@ -46,15 +45,10 @@ export default function HeaderLinks(props:{name:string}) {
       borderRadius="30px"
       boxShadow={shadow}
     >
-      <SearchBar
-        mb={() => {
-        }}
-        me="10px"
-        borderRadius="30px"
-      />
+      <Box width={'10px'}></Box>
       <SidebarResponsive routes={routes} />
       <Menu>
-        <MenuButton p="0px">
+        <MenuButton p="5px">
           <Icon
             mt="6px"
             as={MdNotificationsNone}

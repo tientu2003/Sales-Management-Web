@@ -4,7 +4,7 @@
 import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
 import { IRoute } from 'types/navigation';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
 interface SidebarLinksProps {
@@ -16,7 +16,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
 
   //   Chakra color mode
   const pathname = usePathname();
-
+  const query = useSearchParams();
   let activeColor = useColorModeValue('gray.700', 'white');
   let inactiveColor = useColorModeValue(
     'secondaryGray.600',
@@ -42,7 +42,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
         route.layout === '/auth' 
       ) {
         return (
-          <Link key={index} href={route.layout + route.path}>
+          <Link key={index} href={route.layout + route.path + '?'+ query}>
             {route.icon ? (
               <Box>
                 <HStack

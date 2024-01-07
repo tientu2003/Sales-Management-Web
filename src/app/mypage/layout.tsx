@@ -27,9 +27,7 @@ export default function MyPageLayout(props: DashboardLayoutProps) {
   const { onOpen } = useDisclosure();
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
   const searchParams = useSearchParams();
-  const [uid,setUID] = useState(searchParams.get('uid'));
   const [fullname,setFullname] = useState(searchParams.get('name'));
-
   return (
     <Box h="100vh" w="100vw" bg={bg}>
       <SidebarContext.Provider

@@ -1,6 +1,6 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import * as React from 'react';
-
+import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import {
 	createColumnHelper,
 	flexRender,
@@ -12,34 +12,34 @@ import {
 
 // Custom components
 import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
-
-type RowObj = {
+import { useEffect } from 'react';
+type ProductRow = {
+	pid: number;
 	name: string;
-	progress: string;
+	price: number;
 	quantity: number;
-	date: string; 
+	brand: string; 
 };
  
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper<ProductRow>();
 
 // const columns = columnsDataCheck;
-export default function ColumnTable(props: { tableData: any }) {
-	const { tableData } = props;
+export default function ColumnTable(props: { userid: any }) {
+	 
+	const { userid } = props;
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-	let defaultData= tableData;
 	const columns = [
-		columnHelper.accessor('name', {
-			id: 'name',
+		columnHelper.accessor('pid', {
+			id: 'pid',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					NAME
+					ID
 				</Text>
 			),
 			cell: (info: any) => (
@@ -50,24 +50,61 @@ export default function ColumnTable(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('progress', {
-			id: 'progress',
+		columnHelper.accessor('name', {
+			id: 'name',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					PROGRESS
+					PRODUCT
 				</Text>
 			),
-			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
 			)
-		}),
-		columnHelper.accessor('quantity', {
+		}),columnHelper.accessor('brand', {
+			id: 'brand',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					BRAND/SUPPLIER
+				</Text>
+			),
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
+			)
+		}),columnHelper.accessor('price', {
+			id: 'price',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					PRICE
+				</Text>
+			),
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
+			)
+		}),columnHelper.accessor('quantity', {
 			id: 'quantity',
 			header: () => (
 				<Text
@@ -78,31 +115,30 @@ export default function ColumnTable(props: { tableData: any }) {
 					QUANTITY
 				</Text>
 			),
-			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			)
-		}),
-		columnHelper.accessor('date', {
-			id: 'date',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					DATE
-				</Text>
-			),
-			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
 			)
 		})
+	
 	];
-	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
+
+	const [ data, setData ] = React.useState([]);
+	useEffect(() =>{
+		fetch('http://localhost:3000/api/getProductData',{
+			method: "POST",
+			headers:{
+			  'Content-Type':'application/json'
+			},
+			body: JSON.stringify({'uid':userid})
+		}).then(res => res.json()).then(
+			redata => (setData(redata))
+		)
+	},[userid])
+	 
 	const table = useReactTable({
 		data,
 		columns,
@@ -118,9 +154,14 @@ export default function ColumnTable(props: { tableData: any }) {
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' mb="4px" fontWeight='700' lineHeight='100%'>
-					Check Table
+					Table
 				</Text>
-				<Menu />
+				<SearchBar
+					mb={() => {
+					}}
+					me="10px"
+					borderRadius="30px"
+				/>
 			</Flex>
 			<Box>
 				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
