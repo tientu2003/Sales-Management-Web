@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Card, SimpleGrid } from '@chakra-ui/react';
 import React,{useState} from 'react';
 import { Select } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
@@ -19,10 +19,13 @@ export default function DataTables(props:any) {
         columns={{ sm: 1, md: 2 }}
         spacing={{ base: '20px', xl: '20px' }}
       >
-        <Select backgroundColor={"#FFFFFF"} placeholder='Choose Table' onChange={handleSelectTable}>
-            <option value='product'>Product</option>
-            <option value='sales'>Sales Table</option>
-        </Select>
+        <Card>
+          <Select placeholder='Choose Table' onChange={handleSelectTable}>
+              <option value='product'>Product</option>
+              <option value='sales'>Sales Table</option>
+          </Select>
+        </Card>
+       
       </SimpleGrid>
       <SimpleGrid
         mb="20px"

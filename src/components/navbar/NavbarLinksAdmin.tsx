@@ -16,7 +16,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom Components
-import {useRouter} from "next/navigation";
+import {useRouter,useSearchParams} from "next/navigation";
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
 // Assets
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
@@ -34,6 +34,7 @@ export default function HeaderLinks(props:{name:string}) {
     '14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
     '14px 17px 40px 4px rgba(112, 144, 176, 0.06)',
   );
+  const SearchPrams = useSearchParams();
   const { push } = useRouter();
   return (
     <Flex
@@ -148,7 +149,7 @@ export default function HeaderLinks(props:{name:string}) {
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
-            <MenuItem onClick={() => push('/mypage/profilesetting')}
+            <MenuItem onClick={() => push('/mypage/profilesetting?'+SearchPrams)}
               _hover={{ bg: 'none' }}
               _focus={{ bg: 'none' }}
               borderRadius="8px"
@@ -156,7 +157,7 @@ export default function HeaderLinks(props:{name:string}) {
             >
               <Text fontSize="sm">Profile Settings</Text>
             </MenuItem>
-            <MenuItem onClick={() => push('/auth/login')}
+            <MenuItem onClick={() => push('/auth/login?'+SearchPrams)}
               _hover={{ bg: 'none' }}
               _focus={{ bg: 'none' }}
               color="red.400"

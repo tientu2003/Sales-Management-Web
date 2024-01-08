@@ -6,11 +6,12 @@ import {
   useDisclosure,
   useColorModeValue,
 } from '@chakra-ui/react';
+
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
 import Sidebar from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
-import { PropsWithChildren,  useEffect,  useState,use } from 'react';
+import { PropsWithChildren,  useEffect,  useState } from 'react';
 import routes from 'routes';
 import { SearchParams } from 'types';
 interface DashboardLayoutProps extends PropsWithChildren {

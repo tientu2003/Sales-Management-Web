@@ -151,10 +151,10 @@ export default function ColumnTable(props: { userid: any }) {
 		debugTable: true
 	});
 	return (
-		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
+		<Card flexDirection='column' w='100%' px='0px' overflowY={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' mb="4px" fontWeight='700' lineHeight='100%'>
-					Table
+					Product Table
 				</Text>
 				<SearchBar
 					mb={() => {
@@ -164,7 +164,7 @@ export default function ColumnTable(props: { userid: any }) {
 				/>
 			</Flex>
 			<Box>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
+				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={{sm:'scroll'}}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr  key={headerGroup.id}>

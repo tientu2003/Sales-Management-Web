@@ -14,12 +14,12 @@ import {
 import Card from 'components/card/Card';
 import { useEffect } from 'react';
 type SaleRow = {
-	sid: number;
+	order_id: number;
 	pid: number;
-	name: string;
 	quantity: number;
-	total: number; 
-    data: string;
+	total_price: number; 
+    date: string;
+	name: string;
 };
  
 const columnHelper = createColumnHelper<SaleRow>();
@@ -32,8 +32,8 @@ export default function ColumnTable(props: { userid: any }) {
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const columns = [
-        columnHelper.accessor('sid', {
-            id: 'sid',
+        columnHelper.accessor('order_id', {
+            id: 'order_id',
             header: () => (
                 <Text
                     justifyContent='space-between'
@@ -59,7 +59,7 @@ export default function ColumnTable(props: { userid: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					ID
+					ProductID
 				</Text>
 			),
 			cell: (info: any) => (
@@ -88,6 +88,24 @@ export default function ColumnTable(props: { userid: any }) {
 					</Text>
 				</Flex>
 			)
+		}),columnHelper.accessor('date', {
+			id: 'date',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					DATE
+				</Text>
+			),
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
+			)
 		}),columnHelper.accessor('quantity', {
 			id: 'quantity',
 			header: () => (
@@ -106,8 +124,8 @@ export default function ColumnTable(props: { userid: any }) {
 					</Text>
 				</Flex>
 			)
-		}),columnHelper.accessor('total', {
-			id: 'total',
+		}),columnHelper.accessor('total_price', {
+			id: 'total_price',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -156,7 +174,7 @@ export default function ColumnTable(props: { userid: any }) {
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' mb="4px" fontWeight='700' lineHeight='100%'>
-					Table
+					Orders Table
 				</Text>
 				<SearchBar
 					mb={() => {
