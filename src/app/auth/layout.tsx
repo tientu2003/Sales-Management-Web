@@ -3,7 +3,7 @@ import { PropsWithChildren, useState } from 'react';
 
 // Chakra imports
 import { Box, Center, Stack, useColorModeValue } from '@chakra-ui/react';
-import Footer from 'components/footer/FooterAuth';
+
 
 
 // Custom Chakra theme

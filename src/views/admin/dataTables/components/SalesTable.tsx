@@ -20,6 +20,7 @@ type SaleRow = {
 	total_price: number; 
     date: string;
 	name: string;
+	time: string;
 };
  
 const columnHelper = createColumnHelper<SaleRow>();
@@ -97,6 +98,24 @@ export default function ColumnTable(props: { userid: any }) {
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
 					DATE
+				</Text>
+			),
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
+			)
+		}),columnHelper.accessor('time', {
+			id: 'time',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					Time
 				</Text>
 			),
 			cell: (info: any) => (
