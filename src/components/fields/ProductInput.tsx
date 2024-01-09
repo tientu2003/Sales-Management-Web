@@ -4,7 +4,10 @@ import{
     InputGroup,InputLeftAddon,Input,
     Button, useColorModeValue,
     Wrap,
-    InputRightAddon
+    InputRightAddon,
+    useDisclosure,
+    CircularProgress,
+    Center,Text
 }from '@chakra-ui/react'
 // import InputNumber
 import {
@@ -20,6 +23,7 @@ export default function ProductInput(){
     const bgbutton = useColorModeValue('#B9A2FF', '#4318FF');
     const textbuttoncolor = useColorModeValue('#000000', 'white');
     const SearchParms = useSearchParams();
+    
     const [formdata,setFormData] = useState({
       name:'',
       brand:'',
@@ -35,7 +39,13 @@ export default function ProductInput(){
         }
       ))
     }
-    function handleSummit(){
+    const [process,setProcess] = useState(1)
+    function handleSubmit(){
+      setProcess(2)
+      if(formdata.name === '' || formdata.brand === '' || formdata.price === 0.0 || formdata.quantity === 0){
+        setProcess(4)
+        return 'fail'
+      }
       fetch('http://localhost:3000/api/addProduct',{
         method: "POST",
         headers:{
@@ -43,11 +53,15 @@ export default function ProductInput(){
         },
         body: JSON.stringify({'uid':SearchParms.get('uid'),'data':formdata})
       }).then(res => res.json()).then(
-        redata =>(
-          console.log(redata)
-        )
+        redata =>{
+          if(redata.status === "success"){
+            setProcess(3)
+          }else{setProcess(4)}
+
+        }
       )
     }
+    
     
     return(       
           <SimpleGrid w={'1000px'}
@@ -82,7 +96,10 @@ export default function ProductInput(){
               </NumberInput>
               </InputGroup>
               <Wrap justify={'right'}>
-              <Button w={'200px'} alignContent={'center'} backgroundColor={bgbutton} textColor={textbuttoncolor} onClick={handleSummit}>Summit</Button>
+              {process === 2? <CircularProgress isIndeterminate color='green.300' />:null}
+              {process === 3? <Text color={'green.500'}>Success!</Text>:null}
+              {process === 4? <Text color={'red.600'}>Fail!!</Text>:null}
+              <Button w={'200px'} alignContent={'center'} backgroundColor={bgbutton} textColor={textbuttoncolor} onClick={handleSubmit}>Submit</Button>
               </Wrap>
           </SimpleGrid>
    

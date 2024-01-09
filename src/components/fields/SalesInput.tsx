@@ -4,7 +4,7 @@ import{
     InputGroup,InputLeftAddon,Input,
     Button, useColorModeValue,
     Wrap,
-    InputRightAddon
+    InputRightAddon,Text,CircularProgress
 }from '@chakra-ui/react'
 // import InputNumber
 import {
@@ -37,7 +37,14 @@ export default function ProductInput(){
         }
       ))
     }
-    function handleSummit(){
+    const [process,setProcess] = useState(1)
+    function handleSubmit(){
+      setProcess(2)
+      if(formdata.name === '' || formdata.pid === 0 || formdata.date === '' || formdata.quantity === 0
+      || formdata.time === '' || formdata.total_price === 0.0){
+        setProcess(4)
+        return 'fail'
+      }
       fetch('http://localhost:3000/api/addOrder',{
         method: "POST",
         headers:{
@@ -45,9 +52,11 @@ export default function ProductInput(){
         },
         body: JSON.stringify({'uid':SearchParms.get('uid'),'data':formdata})
       }).then(res => res.json()).then(
-        redata =>(
-          console.log(redata)
-        )
+        redata =>{
+          if(redata.status === "success"){
+            setProcess(3)
+          }else{setProcess(4)}
+        }
       )
     }
     
@@ -96,7 +105,10 @@ export default function ProductInput(){
                 <InputRightAddon>$</InputRightAddon>
               </InputGroup>
               <Wrap justify={'right'}>
-              <Button w={'200px'} alignContent={'center'} backgroundColor={bgbutton} textColor={textbuttoncolor} onClick={handleSummit}>Summit</Button>
+              {process === 2? <CircularProgress isIndeterminate color='green.300' />:null}
+              {process === 3? <Text color={'green.500'}>Success!</Text>:null}
+              {process === 4? <Text color={'red.600'}>Fail!!</Text>:null}
+              <Button w={'200px'} alignContent={'center'} backgroundColor={bgbutton} textColor={textbuttoncolor} onClick={handleSubmit}>Summit</Button>
               </Wrap>
           </SimpleGrid>
    

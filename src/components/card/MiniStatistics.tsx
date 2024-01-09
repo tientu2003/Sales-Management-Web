@@ -24,6 +24,8 @@ export default function Default(props: {
 			setText('month')
 		}else if(mode === '3'){
 			setText('year')
+		}else if(mode === '4'){
+
 		}
 	},[mode])
 	return (
@@ -49,7 +51,7 @@ export default function Default(props: {
 						fontSize={{
 							base: '2xl'
 						}}>
-						{growth?('$'):null}{value}
+						{mode != '4'?('$'):null}{value}
 					</StatNumber>
 					{growth ? (
 						<Flex align='center'>
@@ -57,7 +59,7 @@ export default function Default(props: {
 								{growth}
 							</Text>
 							<Text color='secondaryGray.900' fontSize='xs' fontWeight='400'>
-								since last {text}
+								{mode === '4'?<></>:<>since last {text}</>}
 							</Text>
 						</Flex>
 					) : null}

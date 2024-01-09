@@ -1,10 +1,23 @@
 import json
+from flask import jsonify
+from solveHomeData import HomeData
 def countNumberElement(jsondata):
     num = sum(1 for line in jsondata)
     return num
+
 def handleGetHomeData(uid):
-    
-    return 0
+    with open('api/data/test.json') as read:
+        fdata = json.load(read)
+        if(uid in fdata):
+            HomeData.CalculateData(fdata[uid],uid)
+            HomeData.CalculateDateInteVal()
+            day = HomeData.calculateDaily()
+            month = HomeData.calculateMonthly()
+            year = HomeData.calculateAnnually()
+            week = HomeData.calculateWeekly()
+            most = HomeData.calculateMostSold()
+            HomeData.reset()
+    return {"day":day,"month":month,"year":year,"week":week,"most":most}
 
 def addProduct(uid,data):
     with open('api/data/ProductData.json','r') as read:
