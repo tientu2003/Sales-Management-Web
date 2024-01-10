@@ -1,5 +1,6 @@
 from flask import Flask,jsonify,request
 import json
+from solveHomeData import HomeData
 from api.utility import util
 app = Flask(__name__)
 #authentication
@@ -21,7 +22,13 @@ def getHomeData():
     uid = received['uid']
     data = util.handleGetHomeData(uid=uid)
     return jsonify(data)
-
+#Data
+@app.route("/api/getChartData",methods = ['POST','GET'])
+def getChartData():
+    with open('api/data/Calculate/7days.json','r') as fileread:
+        data =json.load(fileread)
+        return jsonify(data)
+    
 #Product Table
 @app.route("/api/getProductData",methods= ['POST'])
 def getProductTable():

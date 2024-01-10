@@ -1,14 +1,14 @@
 'use client';
 import { Box, Heading, SimpleGrid,Select, useColorModeValue} from '@chakra-ui/react';
-import React, { useMemo, useReducer, useState,useEffect, useCallback} from 'react';
-import BarChart from "components/charts/BarChart"
+import React, { useMemo, useRef, useState,useEffect, useCallback} from 'react';
+
 import Card from "components/card/Card"
 import MiniStatistics from 'components/card/MiniStatistics';
 import ProductInput from 'components/fields/ProductInput';
 import SalesInput from 'components/fields/SalesInput';
 import { useSearchParams } from 'next/navigation';
 
-// import HomeChart from 'components/charts/HomeChart';
+import HomeChart from 'components/charts/HomeChart';
 
 export default function Home() {
   const SearchParams = useSearchParams()
@@ -16,17 +16,8 @@ export default function Home() {
     day:{daily:0,dailygrowth:0},
     month:{monthly:0,monthlygrowth:0},
     most:{most:0,product:''},
-    year:{year:0,yeargrowth:0},
-    week: {0:{day:'',value:0},
-    1:{day:'',value:0},
-    2:{day:'',value:0},
-    3:{day:'',value:0},
-    4:{day:'',value:0},
-    5:{day:'',value:0},
-    6:{day:'',value:0},}
+    year:{year:0,yeargrowth:0}
   })
-  const [barChartData,setChartData] = useState([])
-  const [barChartOptions,setBarCharOptions] = useState({})
   useEffect(() =>{
     fetch('http://localhost:3000/api/getHomeData',{
       method: "POST",
@@ -34,12 +25,20 @@ export default function Home() {
         'Content-Type':'application/json'
       },
       body: JSON.stringify({'uid':SearchParams.get('uid')})}
-      ).then(res => res.json()).then(
+      ).then((res) => {
+        if (res.ok){
+          return res.json()
+        }else{
+          throw new Error('Calculate Error!!')
+        }
+        
+      }).then(
         rec => {
           setRData(rec)
         }
       )
   },[SearchParams])
+
 
   const selectcolor = useColorModeValue('#EDF2F7','blue.900')
   const dailycolor = useColorModeValue('#FED7D7','red.400')
@@ -78,8 +77,7 @@ export default function Home() {
         </Card>
         <Card minHeight={'300px'}>
             <Heading>Last 7 days</Heading>
-            {/* <HomeChart data= {rdata.week} /> */}
-            {/* <BarChart chartData={barChartData} chartOptions={barChartOptions}/> */}
+          <HomeChart/>
         </Card>
         {}
       </SimpleGrid>

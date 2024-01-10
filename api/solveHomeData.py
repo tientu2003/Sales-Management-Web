@@ -30,7 +30,6 @@ class HomeData:
                 revenueEachDay.update({index:element['total_price']})
             else:
                 revenueEachDay[index] += element['total_price']
-            sorted(revenueEachDay)
         return revenueEachDay
     #2
     def CalculateDateInteVal():
@@ -103,22 +102,24 @@ class HomeData:
         
 
     def calculateWeekly():
-        weekdate = {}
+        weekdate = []
         today = date.today()
         index = hashToday(str(today))
         listindex = list(revenueEachDay)
         if(index in listindex):
-            weekdate.update({0:{"value":revenueEachDay[index],"day":takeDDMM(str(today))}})
+            weekdate.append({"value":revenueEachDay[index],"day":takeDDMM(str(today))})
         else:
-            weekdate.update({0:{"value":0,"day":takeDDMM(str(today))}})
+            weekdate.append({"value":0,"day":takeDDMM(str(today))})
         for i in range(1,7,1):
             day = today - timedelta(days=i)
             index = hashToday(str(day))
             if(index in listindex):
-                weekdate.update({i:{"value":revenueEachDay[index],"day":takeDDMM(str(day))}})
+                weekdate.append({"value":revenueEachDay[index],"day":takeDDMM(str(day))})
             else:
-                weekdate.update({i:{"value":0,"day":takeDDMM(str(day))}})
-        return weekdate
+                weekdate.append({"value":0,"day":takeDDMM(str(day))})
+        with open('api/data/Calculate/7days.json','w+') as f:
+            json.dump(weekdate,f)
+        return 0
 
     def calculateMostSold():
         i = 1
@@ -143,9 +144,11 @@ class HomeData:
 
     def reset():
         global arraycount
-        data.clear()
-        arraycount.clear()
+        global data
+        global revenueEachDay
+        global revenueToDate
+        data = {}
         arraycount = [0]*1000
-        revenueEachDay.clear()
-        revenueToDate.clear()
+        revenueEachDay = {}
+        revenueToDate = {}
         return True

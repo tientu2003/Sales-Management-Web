@@ -39,13 +39,7 @@ const routes: IRoute[] = [
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: 'Profile Setting',
-    layout: '/mypage',
-    path: '/profilesetting',
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-  },
-  {
-    name: 'Login',
+    name: 'Logout',
     layout: '/auth',
     path: '/login',
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,

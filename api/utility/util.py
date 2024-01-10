@@ -6,18 +6,18 @@ def countNumberElement(jsondata):
     return num
 
 def handleGetHomeData(uid):
-    with open('api/data/test.json') as read:
+    with open('api/data/SalesData.json') as read:
         fdata = json.load(read)
-        if(uid in fdata):
-            HomeData.CalculateData(fdata[uid],uid)
-            HomeData.CalculateDateInteVal()
-            day = HomeData.calculateDaily()
-            month = HomeData.calculateMonthly()
-            year = HomeData.calculateAnnually()
-            week = HomeData.calculateWeekly()
-            most = HomeData.calculateMostSold()
-            HomeData.reset()
-    return {"day":day,"month":month,"year":year,"week":week,"most":most}
+        HomeData.reset()
+        HomeData.CalculateData(fdata[uid],uid)
+        most = HomeData.calculateMostSold()
+        HomeData.CalculateDateInteVal()
+        day = HomeData.calculateDaily()
+        month = HomeData.calculateMonthly()
+        year = HomeData.calculateAnnually()
+        HomeData.calculateWeekly()
+        HomeData.reset()
+    return {"day":day,"month":month,"year":year,"most":most}
 
 def addProduct(uid,data):
     with open('api/data/ProductData.json','r') as read:
