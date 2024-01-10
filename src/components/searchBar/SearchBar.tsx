@@ -6,10 +6,12 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
+import { ChangeEventHandler } from 'react'
 export function SearchBar (props: {
   variant?: string
   background?: string
   children?: JSX.Element
+  onChange: ChangeEventHandler
   placeholder?: string
   borderRadius?: string | number
   [x: string]: any
@@ -21,6 +23,7 @@ export function SearchBar (props: {
     children,
     placeholder,
     borderRadius,
+    onChange,
     ...rest
   } = props
   // Chakra Color Mode
@@ -55,6 +58,7 @@ export function SearchBar (props: {
         _placeholder={{ color: 'gray.400', fontSize: '14px' }}
         borderRadius={borderRadius ? borderRadius : '30px'}
         placeholder={placeholder ? placeholder : 'Search...'}
+        onChange={onChange}
       />
     </InputGroup>
   )

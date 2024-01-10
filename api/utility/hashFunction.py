@@ -2,10 +2,10 @@ from datetime import *
 # 20/12/2002
 def hashDate(dateString):
     datehash = 0
-    temp = dateString.split("/")
-    datehash += int(temp[0])
+    temp = dateString.split("-")
+    datehash += int(temp[0])*372
     datehash += int(temp[1])*31
-    datehash += int(temp[2])*372
+    datehash += int(temp[2])
     return datehash 
 
 def hashTime(timeString):

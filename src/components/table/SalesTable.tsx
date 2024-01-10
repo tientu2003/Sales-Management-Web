@@ -1,6 +1,6 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import * as React from 'react';
-import { SearchBar } from 'components/navbar/searchBar/SearchBar';
+import { SearchBar } from 'components/searchBar/SearchBar';
 import {
 	createColumnHelper,
 	flexRender,
@@ -13,24 +13,46 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import { useEffect } from 'react';
-type ProductRow = {
+type SaleRow = {
+	order_id: number;
 	pid: number;
-	name: string;
-	price: number;
 	quantity: number;
-	brand: string; 
+	total_price: number; 
+    date: string;
+	name: string;
+	time: string;
 };
  
-const columnHelper = createColumnHelper<ProductRow>();
+const columnHelper = createColumnHelper<SaleRow>();
 
 // const columns = columnsDataCheck;
 export default function ColumnTable(props: { userid: any }) {
 	 
 	const { userid } = props;
+	
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const columns = [
+        columnHelper.accessor('order_id', {
+            id: 'order_id',
+            header: () => (
+                <Text
+                    justifyContent='space-between'
+                    align='center'
+                    fontSize={{ sm: '10px', lg: '12px' }}
+                    color='gray.400'>
+                    SaleId
+                </Text>
+            ),
+            cell: (info: any) => (
+                <Flex align='center'> 
+                    <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        {info.getValue()}
+                    </Text>
+                </Flex>
+            )
+        }),
 		columnHelper.accessor('pid', {
 			id: 'pid',
 			header: () => (
@@ -39,7 +61,7 @@ export default function ColumnTable(props: { userid: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					ID
+					ProductID
 				</Text>
 			),
 			cell: (info: any) => (
@@ -58,7 +80,7 @@ export default function ColumnTable(props: { userid: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					PRODUCT
+					Customer
 				</Text>
 			),
 			cell: (info: any) => (
@@ -68,15 +90,15 @@ export default function ColumnTable(props: { userid: any }) {
 					</Text>
 				</Flex>
 			)
-		}),columnHelper.accessor('brand', {
-			id: 'brand',
+		}),columnHelper.accessor('date', {
+			id: 'date',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					BRAND/SUPPLIER
+					DATE
 				</Text>
 			),
 			cell: (info: any) => (
@@ -86,15 +108,15 @@ export default function ColumnTable(props: { userid: any }) {
 					</Text>
 				</Flex>
 			)
-		}),columnHelper.accessor('price', {
-			id: 'price',
+		}),columnHelper.accessor('time', {
+			id: 'time',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					PRICE
+					Time
 				</Text>
 			),
 			cell: (info: any) => (
@@ -122,20 +144,53 @@ export default function ColumnTable(props: { userid: any }) {
 					</Text>
 				</Flex>
 			)
+		}),columnHelper.accessor('total_price', {
+			id: 'total_price',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					TOTAL PRICE
+				</Text>
+			),
+			cell: (info: any) => (
+				<Flex align='center'> 
+					<Text color={textColor} fontSize='sm' fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
+			)
 		})
 	
 	];
+	const tmp:SaleRow[] = []
 
-	const [ data, setData ] = React.useState([]);
+	const [ data, setData ] = React.useState(tmp);
+	const [storage,setStorage] = React.useState([]);
+	function handleSearchBar(event:any){
+		if(event.target.value === ''){
+			setData(storage)
+		}else{
+			const result = data.filter(row => {if(row.name.match(event.target.value)) return row}
+			)
+			setData(result)
+
+		}
+	}
 	useEffect(() =>{
-		fetch('http://localhost:3000/api/getProductData',{
+		fetch('http://localhost:3000/api/getSalesData',{
 			method: "POST",
 			headers:{
 			  'Content-Type':'application/json'
 			},
 			body: JSON.stringify({'uid':userid})
 		}).then(res => res.json()).then(
-			redata => (setData(redata))
+			redata => {
+				setStorage(redata)
+				setData(redata)
+			}
 		)
 	},[userid])
 	 
@@ -151,12 +206,13 @@ export default function ColumnTable(props: { userid: any }) {
 		debugTable: true
 	});
 	return (
-		<Card flexDirection='column' w='100%' px='0px' overflowY={{ sm: 'scroll', lg: 'hidden' }}>
+		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' mb="4px" fontWeight='700' lineHeight='100%'>
-					Product Table
+					Orders Table
 				</Text>
 				<SearchBar
+					onChange={handleSearchBar}
 					mb={() => {
 					}}
 					me="10px"
@@ -164,7 +220,7 @@ export default function ColumnTable(props: { userid: any }) {
 				/>
 			</Flex>
 			<Box>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={{sm:'scroll'}}>
+				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr  key={headerGroup.id}>

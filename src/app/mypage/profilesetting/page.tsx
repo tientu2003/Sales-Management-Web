@@ -1,6 +1,6 @@
 'use client';
 import { Box, SimpleGrid } from '@chakra-ui/react';
-import ColumnsTable from 'views/admin/dataTables/components/ProductTable';
+import ColumnsTable from 'components/table/ProductTable';
 import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import React from 'react';
 

@@ -10,7 +10,7 @@ class HomeData:
     global data
     data = {}
     global arraycount 
-    arraycount = [0]*1000
+    arraycount = [0]*100
     global revenueEachDay
     revenueEachDay= {}
     global revenueToDate
@@ -20,6 +20,7 @@ class HomeData:
     #1
     def CalculateData(inputdata,userid):
         global uid
+        global arraycount
         uid = userid
         data = inputdata
         for element in data:
@@ -34,12 +35,10 @@ class HomeData:
     #2
     def CalculateDateInteVal():
         listindex = list(revenueEachDay)
-        listindex.sort()
-        min = listindex[0]
-        max = hashToday(str(date.today()))
-
-        revenueToDate.update({min:revenueEachDay[min]})
-        for index in range(min+1,max+1,1):
+        start = min(listindex)
+        end = hashToday(str(date.today()))
+        revenueToDate.update({start:revenueEachDay[start]})
+        for index in range(start+1,end+1,1):
             if(index not in listindex):
                 revenueToDate.update({index:0+revenueToDate[index-1]})
             else:
@@ -148,7 +147,7 @@ class HomeData:
         global revenueEachDay
         global revenueToDate
         data = {}
-        arraycount = [0]*1000
+        arraycount = [0]*100
         revenueEachDay = {}
         revenueToDate = {}
         return True
