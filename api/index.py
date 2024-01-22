@@ -20,12 +20,19 @@ def get_login():
 def getHomeData():
     received = request.get_json()
     uid = received['uid']
+    util.calculateStatistic(uid=received['uid'])
     data = util.handleGetHomeData(uid=uid)
     return jsonify(data)
 #Data
 @app.route("/api/getChartData",methods = ['POST','GET'])
 def getChartData():
     with open('api/data/Calculate/7days.json','r') as fileread:
+        data =json.load(fileread)
+        return jsonify(data)
+    
+@app.route("/api/getLineChartData",methods = ['POST','GET'])
+def getLineChartData():
+    with open('api/data/Calculate/LineData.json','r') as fileread:
         data =json.load(fileread)
         return jsonify(data)
     

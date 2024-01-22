@@ -33,3 +33,11 @@ def convertStrToDate(dateString):
     temp = dateString.split("/")
     rdate = date(int(temp[2]),int(temp[1]),int(temp[0]))
     return rdate 
+
+def ConvertHashToDate(value):
+    date = ''
+    year = int(value/372)
+    month = int((value-year*372)/31)
+    day = int((value - year*372 - month*31))
+    date = str(year) +'-'+str(month) + '-' +str(day)
+    return date

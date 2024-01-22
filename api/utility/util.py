@@ -1,6 +1,7 @@
 import json
 from flask import jsonify
 from solveHomeData import HomeData
+from solveStatisticsData import StatisticsData
 def countNumberElement(jsondata):
     num = sum(1 for line in jsondata)
     return num
@@ -18,6 +19,15 @@ def handleGetHomeData(uid):
         HomeData.calculateWeekly()
         HomeData.reset()
     return {"day":day,"month":month,"year":year,"most":most}
+
+def calculateStatistic(uid):
+    with open('api/data/SalesData.json') as read:
+        fdata = json.load(read)
+        StatisticsData.reset()
+        StatisticsData.CalculateData(fdata[uid],uid)
+        StatisticsData.reset()
+        
+
 
 def addProduct(uid,data):
     with open('api/data/ProductData.json','r') as read:
