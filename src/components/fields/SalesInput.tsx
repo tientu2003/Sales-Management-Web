@@ -75,7 +75,7 @@ export default function ProductInput(){
               </InputGroup>
               <InputGroup>
                 <InputLeftAddon color={textbuttoncolor}>Name</InputLeftAddon>
-                    <Input placeholder='product name...' color={textbuttoncolor}  name="name" value={formdata.name} onChange={handleInputChange} ></Input>
+                    <Input placeholder='customer name...' color={textbuttoncolor}  name="name" value={formdata.name} onChange={handleInputChange} ></Input>
               </InputGroup>
               <InputGroup >
                 <InputLeftAddon color={textbuttoncolor}>Date</InputLeftAddon>
